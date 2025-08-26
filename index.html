@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Medicine Safety Quiz</title>
+  <meta name="description" content="Quick quiz on medicine safety for children to test your knowledge.">
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; background:#f9f9f9; color:#222;">
+
+  <h1 style="color:#00529B; font-size:2rem; margin-top:20px;">Medicine Safety Quiz</h1>
+  <div id="quiz" style="margin-top:15px;"></div>
+  <div id="result" style="margin-top:20px; font-weight:bold; font-size:1.2rem;"></div>
+
+  <script>
+    const quizData = [
+      {
+        q: "Why are children often attracted to medicine?",
+        options: ["It looks and tastes like candy", "It smells bad", "They are told to take it"],
+        answer: 0
+      },
+      {
+        q: "Where should you keep medicines at home?",
+        options: ["On the counter", "In a locked cabinet, out of reach", "In a purse"],
+        answer: 1
+      },
+      {
+        q: "What should you do if your child accidentally takes medicine?",
+        options: ["Wait and see if they feel sick", "Call Poison Control immediately", "Give them water and go to bed"],
+        answer: 1
+      },
+      {
+        q: "What tool should you use to measure children’s medicine?",
+        options: ["Kitchen spoon", "Medicine syringe or dropper", "Measuring cup from baking"],
+        answer: 1
+      },
+      {
+        q: "Should you ever call medicine or vitamins 'candy'?",
+        options: ["Yes, it makes it fun", "No, it can confuse children", "Only if they refuse medicine"],
+        answer: 1
+      }
+    ];
+
+    const quizContainer = document.getElementById("quiz");
+    let score = 0;
+    let completed = 0;
+
+    quizData.forEach((item, index) => {
+      const qDiv = document.createElement("div");
+      qDiv.style.marginBottom = "20px";
+
+      const qText = document.createElement("p");
+      qText.innerHTML = `<strong>Q${index + 1}:</strong> ${item.q}`;
+      qDiv.appendChild(qText);
+
+      item.options.forEach((opt, i) => {
+        const label = document.createElement("label");
+        label.style.display = "block";
+        label.style.marginBottom = "6px";
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "q" + index;
+        input.value = i;
+        input.style.marginRight = "8px";
+
+        input.addEventListener("change", function() {
+          if (!qDiv.answered) {
+            qDiv.answered = true;
+            completed++;
+            if (parseInt(this.value) === item.answer) {
+              label.style.color = "green";
+              label.innerHTML = "✅ " + opt;
+              score++;
+            } else {
+              label.style.color = "red";
+              label.innerHTML = "❌ " + opt;
+            }
+          }
+          if (completed === quizData.length) {
+            document.getElementById("result").textContent = `You scored ${score} out of ${quizData.length}!`;
+          }
+        });
+
+        label.appendChild(input);
+        label.append(opt);
+        qDiv.appendChild(label);
+      });
+
+      quizContainer.appendChild(qDiv);
+    });
+  </script>
+</body>
+</html>
