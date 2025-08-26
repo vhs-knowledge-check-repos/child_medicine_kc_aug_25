@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Medicine Safety Quiz</title>
-  <meta name="description" content="Quick quiz on medicine safety for children to test your knowledge.">
+  <title>Medicine Safety Quiz with Explanations</title>
+  <meta name="description" content="Quick quiz on medicine safety for children to test your knowledge, with explanations for each answer.">
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; background:#f9f9f9; color:#222;">
 
@@ -16,27 +16,32 @@
       {
         q: "Why are children often attracted to medicine?",
         options: ["It looks and tastes like candy", "It smells bad", "They are told to take it"],
-        answer: 0
+        answer: 0,
+        explanation: "Many medicines are made to look and taste like candy, which attracts children."
       },
       {
         q: "Where should you keep medicines at home?",
         options: ["On the counter", "In a locked cabinet, out of reach", "In a purse"],
-        answer: 1
+        answer: 1,
+        explanation: "Medicines should always be kept in a locked cabinet or a place out of children's reach and sight."
       },
       {
         q: "What should you do if your child accidentally takes medicine?",
         options: ["Wait and see if they feel sick", "Call Poison Control immediately", "Give them water and go to bed"],
-        answer: 1
+        answer: 1,
+        explanation: "If a child ingests medicine accidentally, call Poison Control immediately at 1-800-222-1222."
       },
       {
         q: "What tool should you use to measure children’s medicine?",
         options: ["Kitchen spoon", "Medicine syringe or dropper", "Measuring cup from baking"],
-        answer: 1
+        answer: 1,
+        explanation: "Use a proper medicine syringe, spoon, or dropper to ensure accurate dosing. Kitchen utensils are unreliable."
       },
       {
         q: "Should you ever call medicine or vitamins 'candy'?",
         options: ["Yes, it makes it fun", "No, it can confuse children", "Only if they refuse medicine"],
-        answer: 1
+        answer: 1,
+        explanation: "Calling medicine 'candy' can confuse children and increase the risk they will take it without supervision."
       }
     ];
 
@@ -46,11 +51,19 @@
 
     quizData.forEach((item, index) => {
       const qDiv = document.createElement("div");
-      qDiv.style.marginBottom = "20px";
+      qDiv.style.marginBottom = "25px";
 
       const qText = document.createElement("p");
       qText.innerHTML = `<strong>Q${index + 1}:</strong> ${item.q}`;
       qDiv.appendChild(qText);
+
+      const explanationDiv = document.createElement("div");
+      explanationDiv.style.marginTop = "5px";
+      explanationDiv.style.fontStyle = "italic";
+      explanationDiv.style.display = "none";
+      explanationDiv.style.color = "#333";
+      explanationDiv.textContent = item.explanation;
+      qDiv.appendChild(explanationDiv);
 
       item.options.forEach((opt, i) => {
         const label = document.createElement("label");
@@ -66,6 +79,8 @@
           if (!qDiv.answered) {
             qDiv.answered = true;
             completed++;
+            explanationDiv.style.display = "block"; // show explanation
+
             if (parseInt(this.value) === item.answer) {
               label.style.color = "green";
               label.innerHTML = "✅ " + opt;
@@ -75,6 +90,7 @@
               label.innerHTML = "❌ " + opt;
             }
           }
+
           if (completed === quizData.length) {
             document.getElementById("result").textContent = `You scored ${score} out of ${quizData.length}!`;
           }
@@ -88,5 +104,10 @@
       quizContainer.appendChild(qDiv);
     });
   </script>
+
+  <div style="font-size:0.8rem; margin-top:30px; color:#555;">
+    <p>Quiz questions were developed using content from <a href="https://medlineplus.gov/" target="_blank">MedlinePlus</a> (National Library of Medicine).</p>
+  </div>
+
 </body>
 </html>
